@@ -31,76 +31,33 @@ The scripts enable TensorFlow GPU memory growth to avoid allocating all VRAM at 
 - TF_FORCE_GPU_ALLOW_GROWTH=true
 - tf.config.experimental.set_memory_growth(...)
 
-
-
 ## **Repository layout (scripts)**
 
-### **1)** **enformer_predictor.py**
+### **1)** enformer_predictor.py**
 
-Runs **batch inference** for a gene list (BED). For each gene, it extracts a window around the **TSS**, resizes to Enformer input length (SEQUENCE_LENGTH), and performs prediction.
+Runs **batched Enformer inference** for a list of genes provided in a BED file. For each gene, it identifies the **TSS**, extracts a **TSS-centered sequence window**, resizes it to SEQUENCE_LENGTH, performs prediction, and saves the outputs plus an index table.
 
-- Inputs:
+### **2)** generate_center_dna.py**
 
-  - genes_bed: must include chrom, start, end, strand, gene_id
-  - Reference FASTA
-  - Enformer checkpoint directory (TensorFlow)
+Creates a **random-sequence perturbation dataset** for a single target locus. It extracts the reference sequence and **replaces the center segment** with random DNA for many samples, writing all sequences to a **gzipped FASTA** file.
 
-- Outputs:
+### **3)** prediction_from_random_seq.py**
 
-  - Per-gene saved predictions (typically .npy), path returned by save_sample
-  - ./outputs/<dataset>/meta_data.csv index
-
-  
-
-### **2)** **generate_center_dna.py**
-
-Generates many sequences by **replacing the center** of a target reference sequence with random DNA.
-
-- Inputs:
-  - Reference FASTA (e.g., ./extra/hg19.fa)
-  - A target interval (typically TSS-centered; configurable)
-  - replaced_length (e.g., 2000 bp)
-  - num_samples
-- Output:
-  - gzipped FASTA: "{gene_id}_random_center_replaced_100k.fa.gz"
-
-### **3)** **prediction_from_random_seq.py**
-
-Reads the gzipped FASTA produced by generate_center_dna.py, **pads** each sequence to Enformer’s input length (SEQUENCE_LENGTH) by centering it, runs batch inference, and saves outputs.
-
-- Inputs:
-  - FA_GZ_PATH: "{gene_id}_random_center_replaced_100k.fa.gz"
-  - Enformer checkpoint directory (TensorFlow)
-- Outputs:
-  - Per-sequence saved predictions (typically .npy)
-  - ./outputs/{gene_id}_random_center_replaced_100k/meta_data.csv
-
-
+Runs **batched Enformer inference** on the random FASTA generated above. It reads the gzipped FASTA, **pads each sequence to SEQUENCE_LENGTH**, performs prediction, saves per-sequence outputs, and writes a corresponding meta_data.csv index for downstream analysis.
 
 ## **Installation**
 
 ### **Python dependencies**
 
-A raw environment snapshot is provided here: 
+An environment snapshot is provided in requirements.txt. This submodule is tested with **Python 3.10**.
 
-In most cases, the minimal runtime dependencies for these scripts include:
-
-- tensorflow (GPU recommended)
-- tensorflow-hub (depending on how the Enformer wrapper loads weights)
-- numpy, pandas, tqdm
-- biopython
-- kipoiseq
-- plus project-local modules under src/ and utility functions under scripts/ / src.scripts/
-
-------
-
-
-
-
+```
+conda create -n enformer-inference python=3.10 -y
+conda activate enformer-inference
+pip install -r requirements.txt
+```
 
 ## **Model checkpoints (official DeepMind Enformer)**
-
-
 
 This submodule expects the **DeepMind official TensorFlow Enformer checkpoints** as provided by the official DeepMind Enformer repository and its documentation.
 
@@ -108,52 +65,7 @@ Configure the checkpoint location in scripts via:
 
 - MODEL_PATH = "checkpoints/tensorflow_v1" 
 
-Ensure the directory structure matches what your src.model.Enformer loader expects.
-
-
-
-## **Input data requirements**
-
-### **Reference genome FASTA**
-
-Example:
-
-- ./extra/hg19.fa
-
-### **Gene BED (for** 
-
-### **enformer_predictor.py**
-
-### **)**
-
-Must contain columns:
-
-- chrom, start, end, strand, gene_id
-
-TSS is computed as:
-
-- tss = start if strand == '+'
-- tss = end if strand == '-'
-
-
-
-## **Outputs**
-
-All inference scripts create:
-
-1. A directory of saved prediction artifacts (commonly .npy)
-2. A meta_data.csv index with fields:
-
-- gene_id
-- chrom
-- tss
-- strand
-- npy_path
-- bins_bp
-- window_bp
-- track_order (pipe-delimited)
-
-
+Ensure the directory structure matches what your src.core.model.Enformer loader expects.
 
 ## **Quickstart**
 
@@ -167,7 +79,7 @@ python generate_center_dna.py
 
 
 
-1. Run Enformer predictions on the generated FASTA:
+2. Run Enformer predictions on the generated FASTA:
 
 ```
 python prediction_from_random_seq.py
