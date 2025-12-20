@@ -6,10 +6,10 @@ from tqdm import tqdm
 import tensorflow as tf
 from Bio import SeqIO
 
-from src.model import Enformer
-from src.constants import SEQUENCE_LENGTH
-from src.utils import one_hot_encode  #
-from src.scripts.utils import run_batch_predict, expand_to_genome, save_sample
+from src.core.model import Enformer
+from src.core.constants import SEQUENCE_LENGTH
+from src.core.utils import one_hot_encode  #
+from scripts.utils import run_batch_predict, expand_to_genome, save_sample
 
 # ---------------- Config ----------------
 gene_id = "ENSG00000155660"  # Example gene ID

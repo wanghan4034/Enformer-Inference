@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from src.model import Enformer
+from src.core.model import Enformer
 
 
 # 需要的输出通道索引（保持固定顺序）
