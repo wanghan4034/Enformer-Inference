@@ -33,15 +33,15 @@ The scripts enable TensorFlow GPU memory growth to avoid allocating all VRAM at 
 
 ## **Repository layout (scripts)**
 
-### **1)** enformer_predictor.py**
+### **1)** enformer_predictor.py
 
 Runs **batched Enformer inference** for a list of genes provided in a BED file. For each gene, it identifies the **TSS**, extracts a **TSS-centered sequence window**, resizes it to SEQUENCE_LENGTH, performs prediction, and saves the outputs plus an index table.
 
-### **2)** generate_center_dna.py**
+### **2)** generate_center_dna.py
 
 Creates a **random-sequence perturbation dataset** for a single target locus. It extracts the reference sequence and **replaces the center segment** with random DNA for many samples, writing all sequences to a **gzipped FASTA** file.
 
-### **3)** prediction_from_random_seq.py**
+### **3)** prediction_from_random_seq.py
 
 Runs **batched Enformer inference** on the random FASTA generated above. It reads the gzipped FASTA, **pads each sequence to SEQUENCE_LENGTH**, performs prediction, saves per-sequence outputs, and writes a corresponding meta_data.csv index for downstream analysis.
 
