@@ -100,8 +100,8 @@ python enformer_predictor.py
 
 Outputs:
 
-- ./outputs/<eid>_enformer_prediction/regions/
-- ./outputs/<eid>_enformer_prediction/meta_data.csv
+- ./outputs/\<eid>_enformer_prediction/regions/
+- ./outputs/\<eid>_enformer_prediction/meta_data.csv
 
 ## **Attribution**
 
