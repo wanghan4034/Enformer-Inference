@@ -69,15 +69,24 @@ Ensure the directory structure matches what your src.core.model.Enformer loader 
 
 ## **Quickstart**
 
-### **A) Random-center replacement experiment**
+### **A) TSS-centered inference for a BED of genes**
+
+```
+python enformer_predictor.py
+```
+
+Outputs:
+
+- ./outputs/\<eid>_enformer_prediction/regions/
+- ./outputs/\<eid>_enformer_prediction/meta_data.csv
+
+### **B) Random-center replacement experiment**
 
 1. Generate randomized FASTA variants:
 
 ```
 python generate_center_dna.py
 ```
-
-
 
 2. Run Enformer predictions on the generated FASTA:
 
@@ -89,19 +98,6 @@ Outputs:
 
 - ./outputs/<gene_id>_random_center_replaced_100k/regions/
 - ./outputs/<gene_id>_random_center_replaced_100k/meta_data.csv
-
-
-
-### **B) TSS-centered inference for a BED of genes**
-
-```
-python enformer_predictor.py
-```
-
-Outputs:
-
-- ./outputs/\<eid>_enformer_prediction/regions/
-- ./outputs/\<eid>_enformer_prediction/meta_data.csv
 
 ## **Attribution**
 
