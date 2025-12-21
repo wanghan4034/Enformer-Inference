@@ -1,6 +1,6 @@
 # **DeepBurst Enformer Inference Utilities (TensorFlow / DeepMind Official)**
 
-This submodule provides lightweight, script-based utilities to (1) generate random DNA variants by replacing the center of a target sequence, and (2) run **Enformer** inference using **DeepMind’s official TensorFlow implementation** and **official pre-trained checkpoints** from the DeepMind Enformer repository.
+This submodule provides lightweight, script-based utilities to (1) generate random DNA variants by replacing the central segment of a target sequence, and (2) run **Enformer** inference to produce histone-mark tracks as inputs to **DeepBurst**, using **DeepMind’s official TensorFlow implementation** and the **official pre-trained checkpoints** from the DeepMind Enformer repository.
 
 **Important implementation note.** The core Enformer inference logic in this submodule is adapted from DeepMind’s official Colab notebook (with project-specific modifications for batching, I/O, and genomic-coordinate expansion):
 
@@ -100,8 +100,8 @@ python enformer_predictor.py
 
 Outputs:
 
-- ./outputs/<dataset>/regions/
-- ./outputs/<dataset>/meta_data.csv
+- ./outputs/\<dataset>/regions/
+- ./outputs/\<dataset>/meta_data.csv
 
 ## **Attribution**
 
