@@ -1,6 +1,6 @@
 # **DeepBurst Enformer Inference Utilities**
 
-This submodule provides lightweight, script-based utilities for generating sequence variants and running **Enformer** inference to obtain sequence-predicted histone-mark tracks that can be used as inputs to **DeepBurst**. The workflow uses **DeepMind’s official TensorFlow Enformer implementation** and the **official pre-trained checkpoints** referenced by DeepMind.
+This submodule provides lightweight, script-based utilities for generating sequence variants and running **Enformer** inference to obtain sequence-predicted histone-mark tracks that can be used as inputs to [**DeepBurst**](https://github.com/wanghan4034/DeepBurst/). The workflow uses **DeepMind’s official TensorFlow Enformer implementation** and the **official pre-trained checkpoints** referenced by DeepMind.
 
 ## **Overview**
 
